@@ -14,6 +14,8 @@ import (
 func NewServer(logger *slog.Logger) *echo.Echo {
 	e := echo.New()
 
+	e.Use(middleware.Gzip())
+
 	e.Use(middleware.RequestLoggerWithConfig(middleware.RequestLoggerConfig{
 		LogStatus:   true,
 		LogURI:      true,
@@ -35,6 +37,17 @@ func NewServer(logger *slog.Logger) *echo.Echo {
 			return nil
 		},
 	}))
+
+	e.Use(middleware.Recover())
+
+	e.Use(middleware.SecureWithConfig(middleware.SecureConfig{
+		XSSProtection:         "",
+		ContentTypeNosniff:    "",
+		XFrameOptions:         "",
+		HSTSMaxAge:            3600,
+		ContentSecurityPolicy: "default-src 'self'",
+	}))
+
 	return e
 }
 
@@ -46,7 +59,7 @@ func RegisterHooks(lc fx.Lifecycle, logger *slog.Logger, cfg *config.Config, e *
 			return nil
 		},
 		OnStop: func(ctx context.Context) error {
-			e.Close()
+			e.Shutdown(ctx)
 			return nil
 		},
 	})
