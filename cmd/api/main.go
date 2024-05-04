@@ -3,9 +3,10 @@ package main
 import (
 	"log/slog"
 
-	"github.com/ugursogukpinar/go-api-boilerplate/modules/config"
-	"github.com/ugursogukpinar/go-api-boilerplate/modules/logger"
-	"github.com/ugursogukpinar/go-api-boilerplate/modules/server"
+	"github.com/ugursogukpinar/go-api-boilerplate/internal/config"
+	"github.com/ugursogukpinar/go-api-boilerplate/internal/logger"
+	"github.com/ugursogukpinar/go-api-boilerplate/internal/server"
+	"github.com/ugursogukpinar/go-api-boilerplate/internal/services"
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
 )
@@ -17,6 +18,7 @@ func main() {
 			return &fxevent.SlogLogger{Logger: logger}
 		}),
 		config.Module,
+		services.Module,
 		server.Module,
 	)
 
