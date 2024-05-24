@@ -5,5 +5,5 @@ import (
 )
 
 var Module = fx.Options(
-	fx.Provide(NewMyService),
+	fx.Provide(NewMyService, NewAuthService),
 )

@@ -1,2 +1,6 @@
 HTTP:
   ListenAddress: ":8080"
+
+App:
+  Name: "Go Boilerplate App"
+  JWTSecret: "secret"

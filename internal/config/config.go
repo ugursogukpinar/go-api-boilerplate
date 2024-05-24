@@ -11,8 +11,14 @@ type httpConfig struct {
 	ListenAddress string
 }
 
+type appConfig struct {
+	Name      string
+	JWTSecret string
+}
+
 type Config struct {
 	HTTP httpConfig
+	App  appConfig
 }
 
 func getViper() *viper.Viper {
